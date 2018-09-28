@@ -125,7 +125,7 @@ contract Raffles {
     // }
 
     //call from client to store random number
-    function _declareWinner(uint _winnerId, uint _raffleId) private onlyAdmin returns (address, bytes32, bytes32, string, string, string) {
+    function _declareWinner(uint _winnerId, uint _raffleId) onlyAdmin returns (address, bytes32, bytes32, string, string, string) {
 
         address winnerAddress = raffles[_raffleId].players[_winnerId];
 
@@ -152,7 +152,7 @@ contract Raffles {
     }
 
     //once raffle is over, admin can call this funtion to get winner's details
-    function getWinner(uint _raffleId) constant onlyAdmin returns (address, bytes32, bytes32, string, string, string) {
+    function getWinner(uint _raffleId) private constant onlyAdmin returns (address, bytes32, bytes32, string, string, string) {
 
             return (raffles[_raffleId].winner.id,
                     raffles[_raffleId].winner.firstName,
