@@ -58,7 +58,7 @@ contract Raffles {
 
     function register(bytes32 _firstName, bytes32 _lastName,
                       string _email, string _college,
-                      string _major, uint _id, uint _goal) public {
+                      string _major, uint _id, uint _goal) {
 
         //check if raffle is open -> should happen on front end using a disable button if closed is set to true
         require(raffles[_id].closed == false);
@@ -102,7 +102,7 @@ contract Raffles {
         }
     }
 
-    function getRaffle(uint _id) public constant returns (uint ,uint, bool, address[]) {
+    function getRaffle(uint _id) constant returns (uint ,uint, bool, address[]) {
         return (raffles[_id].id,
                 raffles[_id].goal,
                 raffles[_id].closed,
@@ -125,7 +125,7 @@ contract Raffles {
     // }
 
     //call from client to store random number
-    function declareWinner(uint _winnerId, uint _raffleId) private onlyAdmin returns (address, bytes32, bytes32, string, string, string) {
+    function _declareWinner(uint _winnerId, uint _raffleId) private onlyAdmin returns (address, bytes32, bytes32, string, string, string) {
 
         address winnerAddress = raffles[_raffleId].players[_winnerId];
 
@@ -152,7 +152,7 @@ contract Raffles {
     }
 
     //once raffle is over, admin can call this funtion to get winner's details
-    function getWinner(uint _raffleId) public constant onlyAdmin returns (address, bytes32, bytes32, string, string, string) {
+    function getWinner(uint _raffleId) constant onlyAdmin returns (address, bytes32, bytes32, string, string, string) {
 
             return (raffles[_raffleId].winner.id,
                     raffles[_raffleId].winner.firstName,
@@ -163,7 +163,7 @@ contract Raffles {
                     );
     }
 
-    function contractdisable() public onlyAdmin {
+    function contractdisable() onlyAdmin {
         require (admin == msg.sender);
         selfdestruct(admin);
     }
